@@ -20,8 +20,14 @@ class ColaEntrada:public Cola
   void diferenciar(){
       string examen = data.pop_back();
       string tipo = "";
-      if (examen.contains("B")){
+      if (examen.find("B") != string::npos){
           tipo = "blood";
+      }
+      if (examen.find("D") != string::npos){
+          tipo = "detritus";
+      }
+      if (examen.find("S") != string::npos){
+          tipo = "skin";
       }
       evaluador->meterExamen(tipo, examen)
   }

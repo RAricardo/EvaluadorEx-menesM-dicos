@@ -1,6 +1,7 @@
 #pragma once
 #include <pthread.h>
 #include "Cola.h"
+#include <string.h>
 
 using namespace std;
 
@@ -29,8 +30,19 @@ class EvaluadorExamenes
   }
 
   void meterExamen(string tipo, string examen){
-      if (tipo == "blood"){
+
+      if (strcmp("blood", tipo) == 0){
+
           blood.meter(examen);
+
+      } else if((strcmp("skin", tipo) == 0){
+
+          skin.meter(examen);
+
+      }else if((strcmp("detritus", tipo) == 0){
+
+          detritus.meter(examen);
+
       }
   }
 };
