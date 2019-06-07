@@ -2,6 +2,7 @@
 #include "Cola.h"
 #include "sync.h"
 #include <vector>
+#include "elements.h"
 #include <string>
 
 using namespace std;
@@ -14,15 +15,13 @@ class Cola
   ISync llenos;
   ISync vacios;
   ISync mutex;
-  vector<string> data;
-  int n;
+
 
   Cola(int n){
 
       llenos = Sync::create("llenos");
-      vacios = Sync::create("vacios");
-      mutex = Sync::create("mutex");
-      this->n = n;
+      vacios = Sync::create("vacios", n);
+      mutex = Sync::create("mutex", 1);
   }
 
 void meter(string examen){
@@ -30,7 +29,7 @@ void meter(string examen){
     vacios.wait();
     mutex.wait();
 
-    data.push_back(examen);
+    mem->meter();
 
     mutex.signal();
     llenos.signal();
@@ -42,7 +41,7 @@ string sacar(){
     llenos.wait();
     mutex.wait();
 
-    string res = data.pop_back();
+    mem->sacar();
 
     mutex.signal();
     vacios.signal();

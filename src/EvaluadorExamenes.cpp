@@ -25,7 +25,7 @@ class EvaluadorExamenes
   void procesar(void* colaArg){
       Cola cola;
       cola = (Cola)colaArg;
-
+      
       //LOGICA DE PROCESAR . RANDOMS
   }
 
@@ -36,7 +36,7 @@ class EvaluadorExamenes
           blood.meter(examen);
 
       } else if((strcmp("skin", tipo) == 0){
-
+          
           skin.meter(examen);
 
       }else if((strcmp("detritus", tipo) == 0){
