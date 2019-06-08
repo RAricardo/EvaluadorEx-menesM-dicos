@@ -10,6 +10,8 @@ using namespace std;
 void init_parameters (char c,int i,string n,int b,int d,int s,int q);
 void stop_parameters(char c,string n);
 void rep_parameters(char c, string n, int i, int m);
+void ctrl_parameters(char c, string n);
+void reg_parameters(char c, string n);
 
 // para init falta [-ie <integer>] [-oe <integer>]
 struct Init_struct {
@@ -26,9 +28,19 @@ struct Rep_struct {
     int i,m;
 };
 
+struct Ctrl_struct {
+    string n;
+};
+
+struct Reg_struct {
+    string n;
+};
+
 Init_struct init_s;
 Stop_struct stop_s;
 Rep_struct rep_s;
+Ctrl_struct ctrl_s;
+Reg_struct reg_s;
 
 int main( int argc, char  *argv[] )
 {
@@ -74,10 +86,28 @@ int main( int argc, char  *argv[] )
         printf("Has escogido el comando (%s)", argv[1]);
         cout << endl;
 
+        reg_s.n="evaluator";
+
+        while(( c = getopt( argc, argv, "n:" )) != -1 ) {
+            reg_parameters(c,reg_s.n);
+        }
+
+        cout << "valores finales: " << endl;
+        cout << "-n: " << reg_s.n << endl;
+
     } else if (ctrl_command == 0) {
 
         printf("Has escogido el comando (%s)", argv[1]);
         cout << endl;
+
+        ctrl_s.n="evaluator";
+
+        while(( c = getopt( argc, argv, "n:" )) != -1 ) {
+            ctrl_parameters(c,ctrl_s.n);
+        }
+
+        cout << "valores finales: " << endl;
+        cout << "-n: " << ctrl_s.n << endl;
 
     } else if (rep_command == 0) {
 
@@ -184,6 +214,34 @@ void rep_parameters(char c, string n, int i, int m)
         case 'm':
             m=atoi(optarg);
             rep_s.m=m;
+            break;
+        case '?':
+            cout<<"Unrecognized option!\n"<<endl;
+            break;
+    }
+}
+
+void ctrl_parameters(char c, string n)
+{
+    switch ( c )
+    {
+        case 'n':
+            n=(string)optarg;
+            ctrl_s.n=n;
+            break;
+        case '?':
+            cout<<"Unrecognized option!\n"<<endl;
+            break;
+    }
+}
+
+void reg_parameters(char c, string n)
+{
+    switch ( c )
+    {
+        case 'n':
+            n=(string)optarg;
+            reg_s.n=n;
             break;
         case '?':
             cout<<"Unrecognized option!\n"<<endl;
