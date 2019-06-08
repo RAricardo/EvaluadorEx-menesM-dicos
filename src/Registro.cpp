@@ -148,11 +148,19 @@ int main( int argc, char  *argv[] )
             }   
         } else {
             /* sin poner -n */
+
             for(int i=2; i <= argc; i++) {
                 
                 cout << argv[i] << "\n";
 
                 ifstream infile(argv[i]); //open the file
+                const char *out_file_name = /*argv[i]*/"output.spl";
+                ofstream outfile (out_file_name);
+
+                if (outfile.is_open()){
+                    outfile << "This is the first line.\n";
+                    outfile.close();
+                } else cout << "Unable to open file";
 
                 if (infile.is_open() && infile.good()) {
                     cout << "File is now open!\nContains:\n";
@@ -160,6 +168,7 @@ int main( int argc, char  *argv[] )
                     while (getline(infile, line)){
                         cout << line << '\n';
                     }
+                    infile.close();
                 } else {
                     cout << "Failed to open file..";
                 }
