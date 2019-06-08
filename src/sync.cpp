@@ -12,6 +12,12 @@ Sync::Sync(const char *name, sem_t *sem):
 Sync::~Sync() {
 }
 
+ISync* Sync::create(const char *name, unsigned int value) {
+    sem_t *sem = sem_open(name, O_CREAT | O_EXCL, S_IRUSR | S_IWUSR  | S_IRGRP | S_IWGRP, value);
+    Sync* sync = new Sync(name, sem);
+    return sync;
+}
+
 ISync* Sync::create(const char *name) {
     sem_t *sem = sem_open(name, O_CREAT | O_EXCL, S_IRUSR | S_IWUSR  | S_IRGRP | S_IWGRP, 0);
     Sync* sync = new Sync(name, sem);
