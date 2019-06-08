@@ -8,6 +8,8 @@
 
 #include <getopt.h>
 
+#include <fstream> // for file-access
+#include <iostream>
 
 using namespace std;
 
@@ -28,6 +30,10 @@ struct Init_struct {
     string n;
 };
 
+struct Reg_struct {
+    string n;
+};
+
 struct Stop_struct {
     string n;
 };
@@ -41,9 +47,6 @@ struct Ctrl_struct {
     string n;
 };
 
-struct Reg_struct {
-    string n;
-};
 
 Init_struct init_s;
 Stop_struct stop_s;
@@ -133,21 +136,35 @@ int main( int argc, char  *argv[] )
 
         cout << "valores finales: " << endl;
         cout << "-n: " << reg_s.n << endl;
+        
+        int is_interactive = strcmp(argv[2], "-");
 
-        if (infile) {
-            file = fopen(infile, "r");
-                if (file == NULL) {
-                    cout << "cannot open input file" << endl;
-                    exit(1);
+        if(is_interactive == 0){
+            cout << "Escogist el modo interactivo" << endl;
+            string x="";
+            cout << "> ";
+            while(cin >> x) {
+                cout << "> ";
+            }   
+        } else {
+            /* sin poner -n */
+            for(int i=2; i <= argc; i++) {
+                
+                cout << argv[i] << "\n";
+
+                ifstream infile(argv[i]); //open the file
+
+                if (infile.is_open() && infile.good()) {
+                    cout << "File is now open!\nContains:\n";
+                    string line = "";
+                    while (getline(infile, line)){
+                        cout << line << '\n';
+                    }
+                } else {
+                    cout << "Failed to open file..";
                 }
+            }
         }
-
-        while (fgets(ch, 200, file) != NULL) {
-            fputs(ch, text);
-        }
-
-        fclose(file);
-        fclose(text);
 
     } else if (ctrl_command == 0) {
 
@@ -307,7 +324,6 @@ void reg_parameters(char c, string n)
         case 'n':
             n=(string)optarg;
             reg_s.n=n;
-            infile = optarg;
             break;
         case '?':
             cout<<"Unrecognized option!\n"<<endl;
