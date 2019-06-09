@@ -5,11 +5,12 @@
 #include <string>
 #include <stdlib.h>
 #include <cstring>
-
 #include <getopt.h>
-
 #include <fstream> // for file-access
 #include <iostream>
+#include <bits/stdc++.h> 
+#include <sstream>
+
 
 using namespace std;
 
@@ -18,12 +19,6 @@ void stop_parameters(char c,string n);
 void rep_parameters(char c, string n, int i, int m);
 void ctrl_parameters(char c, string n);
 void reg_parameters(char c, string n);
-
-// ./a.out reg -n memoria prueba.txt prueba2.txt
-
-// ./a.out reg -n memoria - (cosita interactiva)
-
-// ./a.out rep -n memoria (( -i # ó -m # ))
 
 struct Init_struct {
     int i,b,d,s,q,ie,oe;
@@ -93,8 +88,6 @@ int main( int argc, char  *argv[] )
     int rep_command = strcmp(argv[1], rep);
     int stop_command = strcmp(argv[1], stop);
 
-    // para init falta [-ie <integer>] [-oe <integer>]
-
     if (init_command == 0) {
 
         printf("Has escogido el comando (%s)", argv[1]);
@@ -139,15 +132,43 @@ int main( int argc, char  *argv[] )
         
         int is_interactive = strcmp(argv[2], "-");
 
+        /* interactivo y archivos sin poner -n */
+
         if(is_interactive == 0){
             cout << "Escogist el modo interactivo" << endl;
+
             string x="";
-            cout << "> ";
-            while(cin >> x) {
-                cout << "> ";
-            }   
+            string bandeja_entrada="";
+            string muestra="";
+            string cantidad_muestra="";
+            int entrada=0;
+            int cantidad=0;
+            char tipo_muestra;
+
+            cout << "> " << endl;
+
+            while(cin >> bandeja_entrada >> muestra >> cantidad_muestra) {
+
+                entrada = atoi(bandeja_entrada.c_str());
+                tipo_muestra = muestra[0];
+                cantidad = atoi(cantidad_muestra.c_str());
+
+                cout << "Bandeja de entrada: " << entrada << endl;
+                cout << "Muestra: " << tipo_muestra << endl;
+                cout << "Cantidad de muestra: " <<  cantidad << endl;
+
+                cout << "> " << endl;
+
+            }  
+
         } else {
-            /* sin poner -n */
+
+            string bandeja_entrada="";
+            string muestra="";
+            string cantidad_muestra="";
+            int entrada=0;
+            int cantidad=0;
+            char tipo_muestra;
 
             for(int i=2; i <= argc; i++) {
                 
@@ -166,7 +187,28 @@ int main( int argc, char  *argv[] )
                     cout << "File is now open!\nContains:\n";
                     string line = "";
                     while (getline(infile, line)){
+
                         cout << line << '\n';
+
+                        string arr[3];
+                        int i = 0;
+                        stringstream ssin(line);
+                        while (ssin.good() && i < 3){
+                            ssin >> arr[i];
+                            ++i;
+                        }
+                        /*for(i = 0; i < 3; i++){
+                            cout << arr[i] << endl;
+                        }*/
+
+                        entrada = atoi(arr[0].c_str());
+                        tipo_muestra = (arr[1].c_str())[0];
+                        cantidad = atoi(arr[2].c_str());
+
+                        cout << "Bandeja de entrada: " << entrada << endl;
+                        cout << "Muestra: " << tipo_muestra << endl;
+                        cout << "Cantidad de muestra: " <<  cantidad << endl;
+
                     }
                     infile.close();
                 } else {
@@ -189,6 +231,15 @@ int main( int argc, char  *argv[] )
         cout << "valores finales: " << endl;
         cout << "-n: " << ctrl_s.n << endl;
 
+        cout << "> " << endl;
+        string sub_command;
+
+        while(cin >> sub_command) {
+            cout << "El comando que escogiste es: " << sub_command << endl;
+            cout << "> " << endl;
+        } 
+
+    // ./a.out rep -n memoria (( -i # ó -m # ))
     } else if (rep_command == 0) {
 
         printf("Has escogido el comando (%s)", argv[1]);
