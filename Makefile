@@ -13,7 +13,7 @@ VPATH := src include
 $(BINDIR)/evaluator: $(BUILDDIR)/registro.o $(BUILDDIR)/Evaluador.o $(BUILDDIR)/examen.o $(BUILDDIR)/ColaEntrada.o $(BUILDDIR)/ColaSalida.o $(BUILDDIR)/ColaInterna.o $(BUILDDIR)/Cola.o $(BUILDDIR)/sync.o $(BUILDDIR)/isync.o $(BUILDDIR)/MemoryManager.o
 	$(CXX) -o $@ $^ $(FLAGS)
 
-$(BUILDDIR)/registro.o: $(SRCDIR)/registro.cpp
+$(BUILDDIR)/registro.o: $(SRCDIR)/Registro.cpp
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 $(BUILDDIR)/Evaluador.o: $(SRCDIR)/Evaluador.cpp $(INCLUDE)/Evaluador.h $(INCLUDE)/Memoria.h
