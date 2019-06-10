@@ -129,12 +129,29 @@ int main( int argc, char  *argv[] )
 
         cout << "valores finales: " << endl;
         cout << "-n: " << reg_s.n << endl;
-        
-        int is_interactive = strcmp(argv[2], "-");
 
-        /* interactivo y archivos sin poner -n */
+        int arg_count = 0; 
+        while(argv[++arg_count] != NULL);
+
+        cout << "options: " << arg_count << endl;
+
+        int is_interactive=-1;
+        int is_not_file=-1;
+
+        if(arg_count==3){
+            is_interactive = strcmp(argv[2], "-");
+        }else if(arg_count==5) {
+            is_not_file = strcmp(argv[4], "-");
+            if(is_not_file==0){
+                is_interactive = 0;
+            }
+        }
+        if(arg_count==2){
+            exit(1);
+        }
 
         if(is_interactive == 0){
+
             cout << "Escogist el modo interactivo" << endl;
 
             string x="";
@@ -170,20 +187,36 @@ int main( int argc, char  *argv[] )
             int cantidad=0;
             char tipo_muestra;
 
-            for(int i=2; i <= argc; i++) {
+            int i=0;
+            if(arg_count==3 && is_interactive!=0){
+                i=2;
+            }else if((arg_count>=5 && is_not_file!=0)){
+                i=2;
+            }else if(arg_count==4){
+                i=2;
+            }
+
+            for(i; i <= argc; i++) {
                 
-                cout << argv[i] << "\n";
-
                 ifstream infile(argv[i]); //open the file
-                const char *out_file_name = /*argv[i]*/"output.spl";
-                ofstream outfile (out_file_name);
-
-                if (outfile.is_open()){
-                    outfile << "This is the first line.\n";
-                    outfile.close();
-                } else cout << "Unable to open file";
 
                 if (infile.is_open() && infile.good()) {
+
+                    string out_file = argv[i];
+                    size_t lastindex = out_file.find_last_of("."); 
+                    string rawname = out_file.substr(0, lastindex);
+
+                    string out_name = rawname + ".spl";
+
+                    const char *out_file_name = out_name.c_str();
+                    ofstream outfile (out_file_name);
+
+                    if (outfile.is_open()){
+                        outfile << "This is the first line.\n";
+                        outfile.close();
+                    } //else cout << "Unable to open file";
+
+                    cout << argv[i] << "\n";
                     cout << "File is now open!\nContains:\n";
                     string line = "";
                     while (getline(infile, line)){
@@ -211,9 +244,9 @@ int main( int argc, char  *argv[] )
 
                     }
                     infile.close();
-                } else {
+                } /* else {
                     cout << "Failed to open file..";
-                }
+                }*/
             }
         }
 
@@ -231,12 +264,49 @@ int main( int argc, char  *argv[] )
         cout << "valores finales: " << endl;
         cout << "-n: " << ctrl_s.n << endl;
 
-        cout << "> " << endl;
-        string sub_command;
+        char processing[] ="processing";
+        char waiting[]="waiting";
+        char reported[]="reported"; 
+        char reactive[]="reactive"; 
+        char all[]="all";
+        char update[]="update";
 
+        int processing_command;
+        int waiting_command;
+        int reported_command;
+        int reactive_command;
+        int all_command;
+        int update_command;
+
+        char sub_command[]="";
+
+        cout << "> ";
+
+        //it is not working at all
         while(cin >> sub_command) {
-            cout << "El comando que escogiste es: " << sub_command << endl;
-            cout << "> " << endl;
+
+            cout << "> ";
+
+            processing_command = strcmp(processing, sub_command);
+            waiting_command = strcmp(waiting, sub_command);
+            reported_command = strcmp(reported, sub_command);
+            reactive_command = strcmp(reactive, sub_command);
+            all_command = strcmp(all, sub_command);
+            update_command = strcmp(update, sub_command);
+
+            if(processing_command==0){
+                cout << "Processing: " << endl;
+            }else if(waiting_command==0){
+                cout << "Waiting: " << endl;
+            }else if(reported_command==0){
+                cout << "Reported: " << endl;
+            }else if(reactive_command==0){
+                cout << "Reactive: " << endl;
+            }else if(all_command==0){
+                cout << "All: " << endl;
+            }else if(update_command==0){
+                cout << "Update: " << endl;
+            }
         } 
 
     // ./a.out rep -n memoria (( -i # ó -m # ))
