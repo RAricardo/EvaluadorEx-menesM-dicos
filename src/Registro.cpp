@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <cstring>
 #include <getopt.h>
-#include <fstream> // for file-access
+#include <fstream>
 #include <iostream>
 #include "Memoria.h"
 #include "ColaEntrada.h"
@@ -14,7 +14,6 @@
 #include "Evaluador.h"
 #include <bits/stdc++.h> 
 #include <sstream>
-
 
 using namespace std;
 
@@ -53,7 +52,6 @@ Rep_struct rep_s;
 Ctrl_struct ctrl_s;
 Reg_struct reg_s;
 
-/*  Files  */
 char *infile = NULL;
 FILE *file = stdin;
 FILE *text = stdout;
@@ -94,9 +92,6 @@ int main( int argc, char  *argv[] )
 
     if (init_command == 0) {
 
-        printf("Has escogido el comando (%s)", argv[1]);
-        cout << endl;
-
         init_s.i=5;
         init_s.ie=6;
         init_s.oe=10;
@@ -110,34 +105,17 @@ int main( int argc, char  *argv[] )
             init_parameters(opt,init_s.i,init_s.ie,init_s.oe,init_s.n,init_s.b,init_s.d,init_s.s,init_s.q);
         }
 
-        cout << "valores finales: " << endl;
-        cout << "-i: " << init_s.i << endl;
-        cout << "-ie: " << init_s.ie << endl;
-        cout << "-oe: " << init_s.oe << endl;
-        cout << "-n: " << init_s.n << endl;
-        cout << "-b: " << init_s.b << endl;
-        cout << "-d: " << init_s.d << endl;
-        cout << "-s: " << init_s.s << endl;
-        cout << "-q: " << init_s.q << endl;
+        for(;;){}
 
     } else if (reg_command == 0) {
-
-        printf("Has escogido el comando (%s)", argv[1]);
-        cout << endl;
 
         reg_s.n="evaluator";
 
         while(( c = getopt( argc, argv, "n:" )) != -1 ) {
             reg_parameters(c,reg_s.n);
         }
-
-        cout << "valores finales: " << endl;
-        cout << "-n: " << reg_s.n << endl;
-
         int arg_count = 0; 
         while(argv[++arg_count] != NULL);
-
-        cout << "options: " << arg_count << endl;
 
         int is_interactive=-1;
         int is_not_file=-1;
@@ -156,8 +134,6 @@ int main( int argc, char  *argv[] )
 
         if(is_interactive == 0){
 
-            cout << "Escogist el modo interactivo" << endl;
-
             string x="";
             string bandeja_entrada="";
             string muestra="";
@@ -166,20 +142,15 @@ int main( int argc, char  *argv[] )
             int cantidad=0;
             char tipo_muestra;
 
-            cout << "> " << endl;
-
+            int j=0;
             while(cin >> bandeja_entrada >> muestra >> cantidad_muestra) {
 
                 entrada = atoi(bandeja_entrada.c_str());
                 tipo_muestra = muestra[0];
                 cantidad = atoi(cantidad_muestra.c_str());
 
-                cout << "Bandeja de entrada: " << entrada << endl;
-                cout << "Muestra: " << tipo_muestra << endl;
-                cout << "Cantidad de muestra: " <<  cantidad << endl;
-
-                cout << "> " << endl;
-
+                cout << j << endl;
+                j++;
             }  
 
         } else {
@@ -200,7 +171,7 @@ int main( int argc, char  *argv[] )
                 i=2;
             }
 
-            for(; i <= argc; i++) {
+            for(i; i <= argc; i++) {
                 
                 ifstream infile(argv[i]); //open the file
 
@@ -215,17 +186,19 @@ int main( int argc, char  *argv[] )
                     const char *out_file_name = out_name.c_str();
                     ofstream outfile (out_file_name);
 
+                    /*
+                        Si las muestras provienen de un fichero
+                        se retorna un fichero con el mismo nombre pero con extensioon spl (Samples)
+                        donde se muestra los identicadores pendientes y las muestras provienen de la
+                        entrada estandar despues de un examen se retorna el numero de la muestra.
+                     */
                     if (outfile.is_open()){
-                        outfile << "This is the first line.\n";
+                        outfile << "Pending identifiers.\n"; //writing into the .spl file
                         outfile.close();
-                    } //else cout << "Unable to open file";
+                    }
 
-                    cout << argv[i] << "\n";
-                    cout << "File is now open!\nContains:\n";
                     string line = "";
                     while (getline(infile, line)){
-
-                        cout << line << '\n';
 
                         string arr[3];
                         int i = 0;
@@ -234,30 +207,18 @@ int main( int argc, char  *argv[] )
                             ssin >> arr[i];
                             ++i;
                         }
-                        /*for(i = 0; i < 3; i++){
-                            cout << arr[i] << endl;
-                        }*/
 
                         entrada = atoi(arr[0].c_str());
                         tipo_muestra = (arr[1].c_str())[0];
                         cantidad = atoi(arr[2].c_str());
 
-                        cout << "Bandeja de entrada: " << entrada << endl;
-                        cout << "Muestra: " << tipo_muestra << endl;
-                        cout << "Cantidad de muestra: " <<  cantidad << endl;
-
                     }
                     infile.close();
-                } /* else {
-                    cout << "Failed to open file..";
-                }*/
+                }
             }
         }
 
     } else if (ctrl_command == 0) {
-
-        printf("Has escogido el comando (%s)", argv[1]);
-        cout << endl;
 
         ctrl_s.n="evaluator";
 
@@ -265,15 +226,13 @@ int main( int argc, char  *argv[] )
             ctrl_parameters(c,ctrl_s.n);
         }
 
-        cout << "valores finales: " << endl;
-        cout << "-n: " << ctrl_s.n << endl;
-
-        char processing[] ="processing";
-        char waiting[]="waiting";
-        char reported[]="reported"; 
-        char reactive[]="reactive"; 
-        char all[]="all";
+        char processing[] ="list processing";
+        char waiting[]="list waiting";
+        char reported[]="list reported"; 
+        char reactive[]="list reactive"; 
+        char all[]="list all";
         char update[]="update";
+        string updated="update";
 
         int processing_command;
         int waiting_command;
@@ -282,42 +241,67 @@ int main( int argc, char  *argv[] )
         int all_command;
         int update_command;
 
-        char sub_command[]="";
+        string sub_command;
 
-        cout << "> ";
+            while(getline(cin, sub_command))  {
+            
 
-        //it is not working at all
-        while(cin >> sub_command) {
+            string type_command;
+            if (sub_command.find(updated) != string::npos) {
 
-            cout << "> ";
+                string arr[3];
+                int i = 0;
+                stringstream ssin(sub_command);
+                while (ssin.good() && i < 3){
+                    ssin >> arr[i];
+                    ++i;
+                }
 
-            processing_command = strcmp(processing, sub_command);
-            waiting_command = strcmp(waiting, sub_command);
-            reported_command = strcmp(reported, sub_command);
-            reactive_command = strcmp(reactive, sub_command);
-            all_command = strcmp(all, sub_command);
-            update_command = strcmp(update, sub_command);
+                int carga=0;
+                char tipo_muestra;
+
+                type_command = arr[0];
+                tipo_muestra = (arr[1].c_str())[0];
+                carga = atoi(arr[2].c_str());
+
+            } 
+
+            char char_sub_command[sub_command.size()+1];
+            strcpy(char_sub_command, sub_command.c_str());
+
+            char char_type_command[type_command.size()+1];
+            strcpy(char_type_command, type_command.c_str());
+
+            processing_command = strcmp(processing, char_sub_command);
+            waiting_command = strcmp(waiting, char_sub_command);
+            reported_command = strcmp(reported, char_sub_command);
+            reactive_command = strcmp(reactive, char_sub_command);
+            all_command = strcmp(all, char_sub_command);
+            update_command = strcmp(update, char_type_command);
 
             if(processing_command==0){
                 cout << "Processing: " << endl;
+
             }else if(waiting_command==0){
                 cout << "Waiting: " << endl;
+
             }else if(reported_command==0){
                 cout << "Reported: " << endl;
+
             }else if(reactive_command==0){
                 cout << "Reactive: " << endl;
+
             }else if(all_command==0){
                 cout << "All: " << endl;
+
             }else if(update_command==0){
-                cout << "Update: " << endl;
+                
+                //code for update (tipo_muestra, carga)
+
             }
         } 
 
-    // ./a.out rep -n memoria (( -i # ó -m # ))
     } else if (rep_command == 0) {
-
-        printf("Has escogido el comando (%s)", argv[1]);
-        cout << endl;
 
         rep_s.n = "evaluator";
         rep_s.i = 1;
@@ -327,15 +311,8 @@ int main( int argc, char  *argv[] )
             rep_parameters(c,rep_s.n, rep_s.i, rep_s.m);
         }
 
-        cout << "valores finales: " << endl;
-        cout << "-n: " << rep_s.n << endl;
-        cout << "-i: " << rep_s.i << endl;
-        cout << "-m: " << rep_s.m << endl;
 
     } else if (stop_command == 0) {
-
-        printf("Has escogido el comando (%s)", argv[1]);
-        cout << endl;
 
         stop_s.n="evaluator";
 
@@ -343,13 +320,9 @@ int main( int argc, char  *argv[] )
             stop_parameters(c,stop_s.n);
         }
 
-        cout << "valores finales: " << endl;
-        cout << "-n: " << stop_s.n << endl;
-
     } else {
 
-        printf("Has seleccionado un comando invalido.\n");
-        cout << endl;
+        exit(1);
 
     }
   
@@ -364,12 +337,12 @@ void init_parameters (int opt, int i, int ie, int oe, string n, int b, int d, in
             i=atoi(optarg);
             init_s.i=i;
             break;
-        //{"ie", optional_argument, 0,  'r' }
+        //r is equal to ie
         case 'r':
             ie=atoi(optarg);
             init_s.ie=ie;
             break;
-        //{"oe",    optional_argument, 0,  't' },
+        //t is equal to oe
         case 't':
             oe=atoi(optarg);
             init_s.oe=oe;
