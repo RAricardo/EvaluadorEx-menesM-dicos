@@ -9,17 +9,10 @@
 #include <sys/stat.h>
 #include <iostream>
 #include <cstdlib>
-#include<cstring>
+#include <cstring>
 #include "Memoria.h"
-#include "ColaEntrada.h"
-#include "ColaSalida.h"
 
-using namespace std;
-
-class Evaluador {
-  public:
-    static void init(char* n, int i, int ie, int oe, int b, int d, int s, int q);
+class MemoryManager {
+    public:
     static struct Memoria* openMemory(char* name);
 };
-
-extern ColaSalida* sal;

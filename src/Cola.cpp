@@ -2,6 +2,7 @@
 #include "sync.h"
 #include <vector>
 #include <string>
+#include "MemoryManager.h"
 
 using namespace std;
 

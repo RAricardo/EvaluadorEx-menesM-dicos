@@ -105,7 +105,7 @@ int main( int argc, char  *argv[] )
             init_parameters(opt,init_s.i,init_s.ie,init_s.oe,init_s.n,init_s.b,init_s.d,init_s.s,init_s.q);
         }
 
-        Evaluador::init(init_s.n, init_s.i, init_s.ie, init_s.oe, init_s.b, init_s.d, init_s.s, init_s.q);
+        //Evaluador::init(init_s.n, init_s.i, init_s.ie, init_s.oe, init_s.b, init_s.d, init_s.s, init_s.q);
         
         for(;;){}
 

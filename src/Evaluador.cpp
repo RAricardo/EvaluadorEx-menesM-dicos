@@ -1,9 +1,10 @@
 #include "Evaluador.h"
 ColaSalida *sal;
-void Evaluador::init(char* n, int i, int ie, int oe, int b, int d, int s, int q)
+void Evaluador::init(char *n, int i, int ie, int oe, int b, int d, int s, int q)
 {
-    for (int c = 0; c<i; ++c){
-          new ColaEntrada(c, ie, q, n);
+    for (int c = 0; c < i; ++c)
+    {
+        new ColaEntrada(c, ie, q, n);
     }
     extern ColaSalida *sal;
     sal = new ColaSalida(oe, n);
@@ -35,7 +36,6 @@ void Evaluador::init(char* n, int i, int ie, int oe, int b, int d, int s, int q)
     }
 
     struct Memoria *pMemoria = (struct Memoria *)dir;
-
     pMemoria->i = i;
     pMemoria->ie = ie;
     pMemoria->oe = oe;
@@ -48,5 +48,4 @@ void Evaluador::init(char* n, int i, int ie, int oe, int b, int d, int s, int q)
     pMemoria->tamano = N_BUFFER;
 
     close(fd);
-
 }

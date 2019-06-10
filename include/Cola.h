@@ -13,6 +13,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "Memoria.h"
+#include "MemoryManager.h"
 #include <thread>
 
 using namespace std;
