@@ -1,6 +1,6 @@
 
 # Evaluador de Exámenes Médicos
-Proyecto final de Sistemas Operativos ST0270 <br>
+Proyecto final de Sistemas Operativos ST0257 <br>
 Ricardo Azopardo <br>
 Diego Fonseca <br>
 Alex Montoya <br>
