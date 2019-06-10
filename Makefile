@@ -6,11 +6,11 @@ CXXFLAGS := -pedantic-errors -Wall -Wextra -std=c++11 -I include
 CXX := g++
 FLAGS := -lrt -pthread
 
-all: dirs $(BINDIR)/registro
+all: dirs $(BINDIR)/evaluator
 
 VPATH := src include
 
-$(BINDIR)/registro: $(BUILDDIR)/registro.o $(BUILDDIR)/Evaluador.o $(BUILDDIR)/examen.o $(BUILDDIR)/ColaEntrada.o $(BUILDDIR)/ColaSalida.o $(BUILDDIR)/Cola.o $(BUILDDIR)/sync.o $(BUILDDIR)/isync.o
+$(BINDIR)/evaluator: $(BUILDDIR)/registro.o $(BUILDDIR)/Evaluador.o $(BUILDDIR)/examen.o $(BUILDDIR)/ColaEntrada.o $(BUILDDIR)/ColaSalida.o $(BUILDDIR)/Cola.o $(BUILDDIR)/sync.o $(BUILDDIR)/isync.o
 	$(CXX) -o $@ $^ $(FLAGS)
 
 $(BUILDDIR)/registro.o: $(SRCDIR)/registro.cpp
@@ -49,6 +49,7 @@ clean:
 .PHONY: dirs
 dirs:
 	@test -d build || mkdir build
+	@test -d bin || mkdir bin
 
 
 
