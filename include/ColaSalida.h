@@ -12,4 +12,3 @@ class ColaSalida: public Cola {
         void imprimirTiempo(int segundos);
 };
 
-extern ColaSalida* sal;
