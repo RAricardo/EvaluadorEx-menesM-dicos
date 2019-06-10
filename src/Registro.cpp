@@ -8,16 +8,13 @@
 #include <getopt.h>
 #include <fstream> // for file-access
 #include <iostream>
-<<<<<<< HEAD
 #include "Memoria.h"
 #include "ColaEntrada.h"
 #include "ColaSalida.h"
 #include "Evaluador.h"
-=======
 #include <bits/stdc++.h> 
 #include <sstream>
 
->>>>>>> 87abec20c588c5382f905c59b5c77726bcf8d582
 
 using namespace std;
 
@@ -203,7 +200,7 @@ int main( int argc, char  *argv[] )
                 i=2;
             }
 
-            for(i; i <= argc; i++) {
+            for(; i <= argc; i++) {
                 
                 ifstream infile(argv[i]); //open the file
 
