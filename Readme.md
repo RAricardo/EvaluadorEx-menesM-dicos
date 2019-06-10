@@ -1,9 +1,9 @@
 
 # Evaluador de Exámenes Médicos
-Proyecto final de Sistemas Operativos ST0270
-Ricardo Azopardo
-Diego Fonseca
-Alex Montoya
+Proyecto final de Sistemas Operativos ST0270 <br>
+Ricardo Azopardo <br>
+Diego Fonseca <br>
+Alex Montoya <br>
 
 ## Introducción
 La finalidad de la aplicación es simular el análisis de muestras biológicas con fines médicos. El sistema recibe las muestras por medio de ficheros o en un modo interactivo y se encarga de hacer el procesamiento y luego entregar los resultados.  
