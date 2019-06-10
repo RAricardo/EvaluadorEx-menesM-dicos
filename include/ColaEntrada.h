@@ -1,7 +1,7 @@
 #pragma once
 #include "Cola.h"
 #include "ColaInterna.h"
-
+#include "Memoria.h"
 #include <string>
 #include <cstring>
 #include <fcntl.h>
@@ -12,7 +12,8 @@
 #include <sys/stat.h>
 #include <iostream>
 #include <cstdlib>
-#include "Memoria.h"
+
+
 
 class ColaEntrada: public Cola {
   private:

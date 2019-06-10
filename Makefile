@@ -10,7 +10,7 @@ all: dirs $(BINDIR)/evaluator
 
 VPATH := src include
 
-$(BINDIR)/evaluator: $(BUILDDIR)/registro.o $(BUILDDIR)/Evaluador.o $(BUILDDIR)/examen.o $(BUILDDIR)/ColaEntrada.o $(BUILDDIR)/ColaSalida.o $(BUILDDIR)/Cola.o $(BUILDDIR)/sync.o $(BUILDDIR)/isync.o
+$(BINDIR)/evaluator: $(BUILDDIR)/registro.o $(BUILDDIR)/Evaluador.o $(BUILDDIR)/examen.o $(BUILDDIR)/ColaEntrada.o $(BUILDDIR)/ColaSalida.o $(BUILDDIR)/ColaInterna.o $(BUILDDIR)/Cola.o $(BUILDDIR)/sync.o $(BUILDDIR)/isync.o
 	$(CXX) -o $@ $^ $(FLAGS)
 
 $(BUILDDIR)/registro.o: $(SRCDIR)/registro.cpp
@@ -21,14 +21,14 @@ $(BUILDDIR)/Evaluador.o: $(SRCDIR)/Evaluador.cpp $(INCLUDE)/Evaluador.h $(INCLUD
 
 $(BUILDDIR)/examen.o: $(SRCDIR)/examen.cpp $(INCLUDE)/Memoria.h
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
+
+$(BUILDDIR)/ColaInterna.o: $(SRCDIR)/ColaInterna.cpp $(INCLUDE)/ColaInterna.h $(INCLUDE)/Cola.h 
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
 	
-$(BUILDDIR)/ColaEntrada.o: $(SRCDIR)/ColaEntrada.cpp $(INCLUDE)/ColaEntrada.h $(INCLUDE)/Cola.h 
+$(BUILDDIR)/ColaEntrada.o: $(SRCDIR)/ColaEntrada.cpp $(INCLUDE)/ColaEntrada.h $(INCLUDE)/ColaInterna.h $(INCLUDE)/Cola.h 
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 $(BUILDDIR)/ColaSalida.o: $(SRCDIR)/ColaSalida.cpp $(INCLUDE)/ColaSalida.h $(INCLUDE)/Cola.h 
-	$(CXX) $(CXXFLAGS) -o $@ -c $<
-
-$(BUILDDIR)/ColaInterna.o: $(SRCDIR)/ColaInterna.cpp $(INCLUDE)/ColaInterna.h $(INCLUDE)/Cola.h 
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 $(BUILDDIR)/Cola.o: $(SRCDIR)/Cola.cpp $(INCLUDE)/Cola.h $(INCLUDE)/sync.h $(INCLUDE)/isync.h $(INCLUDE)/Memoria.h

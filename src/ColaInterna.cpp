@@ -1,14 +1,13 @@
 #include "ColaInterna.h"
 #include <vector>
 #include <string>
-#include "EvaluadorExamenes.h"
 
 using namespace std;
 
 ColaInterna::ColaInterna(char tipo, int n_cola, int q, char * n):
     Cola(tipo, n_cola, q, n)
 {
-    examenes = new vector<examen>();
+    examenes = new vector<examen>;
     pthread_t hilo_Cola;
     pthread_create(&hilo_Cola, NULL, procesar, NULL);
 }
