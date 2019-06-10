@@ -11,6 +11,8 @@
 #include <cstdlib>
 #include<cstring>
 #include "Memoria.h"
+#include "ColaEntrada.h"
+#include "ColaSalida.h"
 
 using namespace std;
 
@@ -21,3 +23,5 @@ class Evaluador {
   public:
     void init(char* n, int i, int ie, int oe, int b, int d, int s, int q);
 };
+
+extern ColaSalida* sal;
