@@ -44,7 +44,7 @@ $(BUILDDIR)/isync.o: $(SRCDIR)/isync.cpp $(INCLUDE)/isync.h
 
 clean:
 	rm -f -R $(BUILDDIR)
-	rm -f registro
+	rm -f -R $(BINDIR)
 
 .PHONY: dirs
 dirs:
