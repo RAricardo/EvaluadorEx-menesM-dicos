@@ -14,4 +14,3 @@ nombre_mem(nombre_mem)
     mutex = Sync::create(tipo + n_cola + "mutex", 1);
 }
 
-

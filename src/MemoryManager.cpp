@@ -36,4 +36,5 @@ void MemoryManager::unlink(char * name){
     sprintf(chArray, "%c", ch);
     char * dirname =  strcat(chArray, name);
     shm_unlink(dirname);
+    
 }
