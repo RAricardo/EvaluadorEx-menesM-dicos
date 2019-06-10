@@ -8,10 +8,16 @@
 #include <getopt.h>
 #include <fstream> // for file-access
 #include <iostream>
+<<<<<<< HEAD
 #include "Memoria.h"
 #include "ColaEntrada.h"
 #include "ColaSalida.h"
 #include "Evaluador.h"
+=======
+#include <bits/stdc++.h> 
+#include <sstream>
+
+>>>>>>> 87abec20c588c5382f905c59b5c77726bcf8d582
 
 using namespace std;
 
@@ -20,12 +26,6 @@ void stop_parameters(char c,string n);
 void rep_parameters(char c, string n, int i, int m);
 void ctrl_parameters(char c, string n);
 void reg_parameters(char c, string n);
-
-// ./a.out reg -n memoria prueba.txt prueba2.txt
-
-// ./a.out reg -n memoria - (cosita interactiva)
-
-// ./a.out rep -n memoria (( -i # ó -m # ))
 
 struct Init_struct {
     int i,b,d,s,q,ie,oe;
@@ -95,8 +95,6 @@ int main( int argc, char  *argv[] )
     int rep_command = strcmp(argv[1], rep);
     int stop_command = strcmp(argv[1], stop);
 
-    // para init falta [-ie <integer>] [-oe <integer>]
-
     if (init_command == 0) {
 
         printf("Has escogido el comando (%s)", argv[1]);
@@ -138,42 +136,124 @@ int main( int argc, char  *argv[] )
 
         cout << "valores finales: " << endl;
         cout << "-n: " << reg_s.n << endl;
-        
-        int is_interactive = strcmp(argv[2], "-");
+
+        int arg_count = 0; 
+        while(argv[++arg_count] != NULL);
+
+        cout << "options: " << arg_count << endl;
+
+        int is_interactive=-1;
+        int is_not_file=-1;
+
+        if(arg_count==3){
+            is_interactive = strcmp(argv[2], "-");
+        }else if(arg_count==5) {
+            is_not_file = strcmp(argv[4], "-");
+            if(is_not_file==0){
+                is_interactive = 0;
+            }
+        }
+        if(arg_count==2){
+            exit(1);
+        }
 
         if(is_interactive == 0){
+
             cout << "Escogist el modo interactivo" << endl;
+
             string x="";
-            cout << "> ";
-            while(cin >> x) {
-                cout << "> ";
-            }   
+            string bandeja_entrada="";
+            string muestra="";
+            string cantidad_muestra="";
+            int entrada=0;
+            int cantidad=0;
+            char tipo_muestra;
+
+            cout << "> " << endl;
+
+            while(cin >> bandeja_entrada >> muestra >> cantidad_muestra) {
+
+                entrada = atoi(bandeja_entrada.c_str());
+                tipo_muestra = muestra[0];
+                cantidad = atoi(cantidad_muestra.c_str());
+
+                cout << "Bandeja de entrada: " << entrada << endl;
+                cout << "Muestra: " << tipo_muestra << endl;
+                cout << "Cantidad de muestra: " <<  cantidad << endl;
+
+                cout << "> " << endl;
+
+            }  
+
         } else {
-            /* sin poner -n */
 
-            for(int i=2; i <= argc; i++) {
+            string bandeja_entrada="";
+            string muestra="";
+            string cantidad_muestra="";
+            int entrada=0;
+            int cantidad=0;
+            char tipo_muestra;
+
+            int i=0;
+            if(arg_count==3 && is_interactive!=0){
+                i=2;
+            }else if((arg_count>=5 && is_not_file!=0)){
+                i=2;
+            }else if(arg_count==4){
+                i=2;
+            }
+
+            for(i; i <= argc; i++) {
                 
-                cout << argv[i] << "\n";
-
                 ifstream infile(argv[i]); //open the file
-                const char *out_file_name = /*argv[i]*/"output.spl";
-                ofstream outfile (out_file_name);
-
-                if (outfile.is_open()){
-                    outfile << "This is the first line.\n";
-                    outfile.close();
-                } else cout << "Unable to open file";
 
                 if (infile.is_open() && infile.good()) {
+
+                    string out_file = argv[i];
+                    size_t lastindex = out_file.find_last_of("."); 
+                    string rawname = out_file.substr(0, lastindex);
+
+                    string out_name = rawname + ".spl";
+
+                    const char *out_file_name = out_name.c_str();
+                    ofstream outfile (out_file_name);
+
+                    if (outfile.is_open()){
+                        outfile << "This is the first line.\n";
+                        outfile.close();
+                    } //else cout << "Unable to open file";
+
+                    cout << argv[i] << "\n";
                     cout << "File is now open!\nContains:\n";
                     string line = "";
                     while (getline(infile, line)){
+
                         cout << line << '\n';
+
+                        string arr[3];
+                        int i = 0;
+                        stringstream ssin(line);
+                        while (ssin.good() && i < 3){
+                            ssin >> arr[i];
+                            ++i;
+                        }
+                        /*for(i = 0; i < 3; i++){
+                            cout << arr[i] << endl;
+                        }*/
+
+                        entrada = atoi(arr[0].c_str());
+                        tipo_muestra = (arr[1].c_str())[0];
+                        cantidad = atoi(arr[2].c_str());
+
+                        cout << "Bandeja de entrada: " << entrada << endl;
+                        cout << "Muestra: " << tipo_muestra << endl;
+                        cout << "Cantidad de muestra: " <<  cantidad << endl;
+
                     }
                     infile.close();
-                } else {
+                } /* else {
                     cout << "Failed to open file..";
-                }
+                }*/
             }
         }
 
@@ -191,6 +271,52 @@ int main( int argc, char  *argv[] )
         cout << "valores finales: " << endl;
         cout << "-n: " << ctrl_s.n << endl;
 
+        char processing[] ="processing";
+        char waiting[]="waiting";
+        char reported[]="reported"; 
+        char reactive[]="reactive"; 
+        char all[]="all";
+        char update[]="update";
+
+        int processing_command;
+        int waiting_command;
+        int reported_command;
+        int reactive_command;
+        int all_command;
+        int update_command;
+
+        char sub_command[]="";
+
+        cout << "> ";
+
+        //it is not working at all
+        while(cin >> sub_command) {
+
+            cout << "> ";
+
+            processing_command = strcmp(processing, sub_command);
+            waiting_command = strcmp(waiting, sub_command);
+            reported_command = strcmp(reported, sub_command);
+            reactive_command = strcmp(reactive, sub_command);
+            all_command = strcmp(all, sub_command);
+            update_command = strcmp(update, sub_command);
+
+            if(processing_command==0){
+                cout << "Processing: " << endl;
+            }else if(waiting_command==0){
+                cout << "Waiting: " << endl;
+            }else if(reported_command==0){
+                cout << "Reported: " << endl;
+            }else if(reactive_command==0){
+                cout << "Reactive: " << endl;
+            }else if(all_command==0){
+                cout << "All: " << endl;
+            }else if(update_command==0){
+                cout << "Update: " << endl;
+            }
+        } 
+
+    // ./a.out rep -n memoria (( -i # ó -m # ))
     } else if (rep_command == 0) {
 
         printf("Has escogido el comando (%s)", argv[1]);
