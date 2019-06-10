@@ -17,11 +17,8 @@
 using namespace std;
 
 class Evaluador {
-
-  private:
-
   public:
-    void init(char* n, int i, int ie, int oe, int b, int d, int s, int q);
+    static void init(char* n, int i, int ie, int oe, int b, int d, int s, int q);
 };
 
 extern ColaSalida* sal;
