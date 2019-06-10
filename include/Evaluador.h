@@ -20,6 +20,7 @@ class Evaluador {
   public:
     static void init(char* n, int i, int ie, int oe, int b, int d, int s, int q);
     static struct Memoria* openMemory(char* name);
+    static void update(char *n, char tipo, int carga);
 };
 
 extern ColaSalida* sal;

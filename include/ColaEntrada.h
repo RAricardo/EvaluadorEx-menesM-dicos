@@ -24,7 +24,7 @@ class ColaEntrada: public Cola {
   public:
      ColaEntrada(int n_cola, int ie, int q, char*nombre_mem);
      struct examen sacar();
-     void meter(int c_entrada, char tipo, int cantidad, char*n);
+     static void meter(int c_entrada, char tipo, int cantidad, char*n);
      void diferenciar();
      void openSems();
 };

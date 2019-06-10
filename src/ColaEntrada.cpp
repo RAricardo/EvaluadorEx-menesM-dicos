@@ -85,7 +85,23 @@ examen ColaEntrada::sacar(){
 }
 
 void ColaEntrada::meter(int c_entrada, char tipo, int cantidad, char *n){
-    openSems();
+    stringstream sstmL;
+    sstmL <<n<< tipo << c_entrada << "llenos";
+    string ansllenos = sstmL.str();
+    char * ansllenos2 = (char *) ansllenos.c_str();
+    ISync* llenos = Sync::open(ansllenos2);
+
+    stringstream sstmV;
+    sstmV <<n<< tipo << c_entrada << "vacios";
+    string ansvacios = sstmV.str();
+    char * ansvacios2 = (char *) ansvacios.c_str();
+    ISync* vacios = Sync::open(ansvacios2);
+
+    stringstream sstmM;
+    sstmM <<n<< tipo << c_entrada << "mutex";
+    string ansmutex = sstmM.str();
+    char * ansmutex2 = (char *) ansmutex.c_str();
+    ISync* mutex = Sync::open(ansmutex2);
 
     struct Memoria *pMemoria = MemoryManager::openMemory(n);
 

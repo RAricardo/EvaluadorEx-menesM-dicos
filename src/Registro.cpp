@@ -18,6 +18,8 @@
 
 using namespace std;
 
+extern ColaSalida*sal;
+
 void init_parameters (int opt,int i,int ie,int oe,char* n,int b,int d,int s,int q);
 void stop_parameters(char c,char* n);
 void rep_parameters(char c, char* n, int i, int m);
@@ -157,6 +159,7 @@ int main( int argc, char  *argv[] )
                 tipo_muestra = muestra[0];
                 cantidad = atoi(cantidad_muestra.c_str());
 
+                ColaEntrada::meter(entrada, tipo_muestra, cantidad, reg_s.n);
                 cout << j << endl;
                 j++;
             }  
@@ -179,7 +182,7 @@ int main( int argc, char  *argv[] )
                 i=2;
             }
 
-            for(i; i <= argc; i++) {
+            for(; i <= argc; i++) {
                 
                 ifstream infile(argv[i]); //open the file
 
@@ -219,7 +222,7 @@ int main( int argc, char  *argv[] )
                         entrada = atoi(arr[0].c_str());
                         tipo_muestra = (arr[1].c_str())[0];
                         cantidad = atoi(arr[2].c_str());
-
+                        ColaEntrada::meter(entrada, tipo_muestra, cantidad, reg_s.n);
                     }
                     infile.close();
                 }
@@ -308,20 +311,23 @@ int main( int argc, char  *argv[] )
                 cout << "All: " << endl;
 
             }else if(update_command==0){
-                
-                //code for update (tipo_muestra, carga)
-
+                Evaluador::update(ctrl_s.n,tipo_muestra,carga);
             }
         } 
 
     } else if (rep_command == 0) {
 
         rep_s.n = default_memory;
-        rep_s.i = 1;
-        rep_s.m = 1;
+        rep_s.i = -1;
+        rep_s.m = -1;
 
         while(( c = getopt( argc, argv, "n:i:m:" )) != -1 ) {
             rep_parameters(c,rep_s.n, rep_s.i, rep_s.m);
+        }
+        if(rep_s.m >-1){
+            sal->imprimirCantidad(rep_s.m);
+        } else if (rep_s.i>-1){
+            sal->imprimirTiempo(rep_s.i);
         }
 
 
