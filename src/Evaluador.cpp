@@ -5,10 +5,10 @@
 void Evaluador::init(char* n, int i, int ie, int oe, int b, int d, int s, int q)
 {
     for (int c = 0; c<i; ++c){
-          new ColaEntrada(c, ie, q);
+          new ColaEntrada(c, ie, q, n);
     }
 
-     new ColaSalida(oe);
+     new ColaSalida(oe, n);
 
     int fd = shm_open(n, O_RDWR | O_CREAT | O_EXCL, 0660);
 
@@ -46,6 +46,8 @@ void Evaluador::init(char* n, int i, int ie, int oe, int b, int d, int s, int q)
     pMemoria->s = s;
     pMemoria->q = q;
     pMemoria->c_id = 0;
+    pMemoria->entra = 0;
+    pMemoria->tamano = N_BUFFER;
 
     close(fd);
 

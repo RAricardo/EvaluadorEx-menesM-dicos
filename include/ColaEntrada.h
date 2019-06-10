@@ -12,19 +12,17 @@
 #include <sys/stat.h>
 #include <iostream>
 #include <cstdlib>
-#include<cstring>
 #include "Memoria.h"
-
-using namespace std;
 
 class ColaEntrada: public Cola {
   private:
     int ie; //tamaño colas de entrada
-     ColaInterna *cib;
-     ColaInterna *cid;
-     ColaInterna *cis;
+     ColaInterna cib;
+     ColaInterna cid;
+     ColaInterna cis;
   public:
-     ColaEntrada(int n_cola, int ie, int q);
-     struct examen sacar(char * n);
-     static void diferenciar(void * n);
+     ColaEntrada(int n_cola, int ie, int q, char*nombre_mem);
+     struct examen sacar();
+     void meter(int c_entrada, char tipo, int cantidad, char*n);
+     void diferenciar();
 };

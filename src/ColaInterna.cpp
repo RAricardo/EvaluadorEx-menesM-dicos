@@ -5,8 +5,8 @@
 
 using namespace std;
 
-ColaInterna::ColaInterna(char tipo, int n_cola, int q):
-    Cola(tipo, n_cola, q)
+ColaInterna::ColaInterna(char tipo, int n_cola, int q, char * n):
+    Cola(tipo, n_cola, q, n)
 {
     examenes = new vector<examen>();
     pthread_t hilo_Cola;

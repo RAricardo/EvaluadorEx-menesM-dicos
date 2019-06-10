@@ -5,8 +5,8 @@
 
 using namespace std;
 
-ColaSalida::ColaSalida(int oe):
-    tipo('s'), n_cola(0), n(oe), reportes(new vector<examen>())
+ColaSalida::ColaSalida(int oe, char * n):
+Cola('s', 0, oe, n), reportes(vector<examen>())
 {}
 
 void ColaSalida::meter(examen examen){
@@ -21,13 +21,14 @@ void ColaSalida::imprimirCantidad(int num){
 
     while(i < num){
 
-        llenos.wait();
-        mutex.wait();
-        examen reporte = reportes.pop_back();  
-        mutex.signal();
-        llenos.signal();
+        llenos->wait();
+        mutex->wait();
+        examen reporte = reportes.back();  
+        reportes.pop_back();
+        mutex->signal();
+        llenos->signal();
 
-        cout << reporte.id + " " + reporte.i + " " + reporte.r << endl;
+        cout << reporte.id << " " << reporte.i << " " << reporte.r << endl;
         i++;    
     }
 
@@ -39,13 +40,14 @@ void ColaSalida::imprimirTiempo(int segundos){
 
     while((clock() - begin) < segundos){
 
-        llenos.wait();
-        mutex.wait();
-        examen reporte = reportes.pop_back();  
-        mutex.signal();
-        llenos.signal();
+        llenos->wait();
+        mutex->wait();
+        examen reporte = reportes.back();  
+        reportes.pop_back();
+        mutex->signal();
+        llenos->signal();
 
-        cout << reporte.id + " " + reporte.i + " " + reporte.r << endl;
+        cout << reporte.id << " " << reporte.i << " " << reporte.r << endl;
         
     }
 }

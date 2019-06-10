@@ -27,9 +27,9 @@ struct Memoria{
       int s;  //reactivo piel
       int q;  //tamaño colas internas
       int c_id;  //contador de id
+      int entra;
+      int tamano;
 
       struct examen examenes[N_BUFFER];
       Memoria(int i, int ie, int oe, int b, int d, int s, int q);
 };
-
-extern Memoria* mem;
