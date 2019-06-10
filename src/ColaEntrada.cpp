@@ -1,7 +1,6 @@
 #include "ColaEntrada.h"
 #include "sync.h"
 #include <vector>
-#include <thread>
 #include <string>
 
 ColaEntrada::ColaEntrada(int n_cola, int ie, int q, char * nombre_mem):

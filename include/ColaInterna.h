@@ -11,5 +11,6 @@ class ColaInterna: public Cola {
     vector<struct examen> examenes;
   public:
   ColaInterna(char tipo, int n_cola, int q, char * n);
+  void procesar();
   void enqueue(struct examen examen);
 };

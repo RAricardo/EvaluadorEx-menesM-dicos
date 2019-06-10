@@ -10,5 +10,6 @@ class ColaSalida: public Cola {
         void meter(struct examen examen);
         void imprimirCantidad(int num);
         void imprimirTiempo(int segundos);
-
 };
+
+extern ColaSalida* sal;

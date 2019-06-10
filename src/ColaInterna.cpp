@@ -1,24 +1,24 @@
 #include "ColaInterna.h"
+#include "ColaSalida.h"
 #include <vector>
 #include <string>
 
 using namespace std;
 
 ColaInterna::ColaInterna(char tipo, int n_cola, int q, char * n):
-    Cola(tipo, n_cola, q, n)
+    Cola(tipo, n_cola, q, n), examenes (vector<examen>())
 {
-    examenes = new vector<examen>;
-    pthread_t hilo_Cola;
-    pthread_create(&hilo_Cola, NULL, procesar, NULL);
+    thread hilo_Cola(&ColaInterna::procesar, this);
 }
 
-void procesar()
+void ColaInterna::procesar()
 {
 
     while (!examenes.empty())
     {
 
-        examen examen = examenes.pop_back();
+        examen examen = examenes.back();
+        examenes.pop_back();
         for (int i = 0; i < examen.q; i++)
         {
             int reactivo;
@@ -32,7 +32,7 @@ void procesar()
             }
             else if (tipo == 'S')
             {
-                int reactivo = (double)rand() / (double)RAND_MAX * (25 - 8) + 8;
+                reactivo = (double)rand() / (double)RAND_MAX * (25 - 8) + 8;
             }
 
             int res = (double)rand() / (double)RAND_MAX * 50;
@@ -47,17 +47,16 @@ void procesar()
             }
 
             examen.r = resultado;
-
-            ColaSalida->meter(examen, reactivo);
+            sal->meter(examen);
         }
     }
 }
 
-void enqueue(examen examen)
+void ColaInterna::enqueue(examen examen)
 {
-    vacios.wait();
-    mutex.wait();
+    vacios->wait();
+    mutex->wait();
     examenes.push_back(examen);
-    mutex.signal();
-    vacios.signal();
+    mutex->signal();
+    vacios->signal();
 }
