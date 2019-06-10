@@ -5,6 +5,8 @@
 
 using namespace std;
 
+extern ColaSalida*sal;
+
 ColaInterna::ColaInterna(char tipo, int n_cola, int q, char * n):
     Cola(tipo, n_cola, q, n), examenes (vector<examen>())
 {
