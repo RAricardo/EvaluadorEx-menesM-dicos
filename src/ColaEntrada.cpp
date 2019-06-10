@@ -8,9 +8,11 @@ ColaEntrada::ColaEntrada(int n_cola, int ie, int q, char *nombre_mem):
     cid(ColaInterna('D', n_cola, q, nombre_mem)), cis(ColaInterna('S', n_cola, q, nombre_mem))
 {
     thread hilo_Cola(&ColaEntrada::diferenciar, this);
+    hilo_Cola.join();
 }
 
 void ColaEntrada::diferenciar(){
+    
     for (;;){
         examen examen = sacar();
         if (examen.k == 'B'){
@@ -30,13 +32,39 @@ examen ColaEntrada::sacar(){
     vacios = Sync::open(tipo + n_cola + "vacios");
     mutex = Sync::open(tipo + n_cola + "mutex");
 
-    struct Memoria *pMemoria = MemoryManager::openMemory(nombre_mem);
+    char ch = '/';
+    char chArray[2];
+    sprintf(chArray, "%c", ch);
+    char * dirname =  strcat(chArray, nombre_mem);
 
+    int fd = shm_open(dirname, O_RDWR, 0660);
+
+    if (fd < 0)
+    {
+        cerr << "Error abriendo la memoria compartida: "
+             << errno << strerror(errno) << endl;
+        exit(1);
+    }
+
+    void *dir;
+
+    if ((dir = mmap(NULL, sizeof(struct examen), PROT_READ | PROT_WRITE, MAP_SHARED,
+                    fd, 0)) == MAP_FAILED)
+    {
+        cerr << "Error mapeando la memoria compartida: "
+             << errno << strerror(errno) << endl;
+        exit(1);
+    }
+
+    struct Memoria *pMemoria = (struct Memoria *)dir;
+
+    //struct Memoria *pMemoria = MemoryManager::openMemory(nombre_mem);
+    
     llenos->wait();
     mutex->wait();
 
     int index = 0;
-
+    
     while (pMemoria->examenes[index].i == n_cola){
         index++;
     }

@@ -1,7 +1,10 @@
 #include "sync.h"
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <iostream>
 #include <cerrno>
+
+using namespace std;
 
 Sync::Sync(const char *name, sem_t *sem):
   ISync(),

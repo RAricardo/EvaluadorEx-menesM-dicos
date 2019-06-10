@@ -1,7 +1,12 @@
 #include "MemoryManager.h"
 
 Memoria* MemoryManager::openMemory(char* name){
-    int fd = shm_open(name, O_RDWR, 0660);
+    char ch = '/';
+    char chArray[2];
+    sprintf(chArray, "%c", ch);
+    char * dirname =  strcat(chArray, name);
+
+    int fd = shm_open(dirname, O_RDWR, 0660);
 
     if (fd < 0)
     {
@@ -21,5 +26,14 @@ Memoria* MemoryManager::openMemory(char* name){
     }
 
     struct Memoria *pMemoria = (struct Memoria *)dir;
+    
     return pMemoria;
+}
+
+void MemoryManager::unlink(char * name){
+    char ch = '/';
+    char chArray[2];
+    sprintf(chArray, "%c", ch);
+    char * dirname =  strcat(chArray, name);
+    shm_unlink(dirname);
 }

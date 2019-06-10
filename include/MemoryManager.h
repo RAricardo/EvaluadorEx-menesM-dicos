@@ -15,4 +15,5 @@
 class MemoryManager {
     public:
     static struct Memoria* openMemory(char* name);
+    static void unlink(char * name);
 };

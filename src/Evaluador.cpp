@@ -2,13 +2,6 @@
 ColaSalida *sal;
 void Evaluador::init(char *n, int i, int ie, int oe, int b, int d, int s, int q)
 {
-    for (int c = 0; c < i; ++c)
-    {
-        new ColaEntrada(c, ie, q, n);
-    }
-    extern ColaSalida *sal;
-    sal = new ColaSalida(oe, n);
-
     int fd = shm_open(n, O_RDWR | O_CREAT | O_EXCL, 0660);
 
     if (fd < 0)
@@ -36,6 +29,14 @@ void Evaluador::init(char *n, int i, int ie, int oe, int b, int d, int s, int q)
     }
 
     struct Memoria *pMemoria = (struct Memoria *)dir;
+    
+    for (int c = 0; c < i; ++c)
+    {
+        new ColaEntrada(c, ie, q, n);
+    }
+    extern ColaSalida *sal;
+    sal = new ColaSalida(oe, n);
+
     pMemoria->i = i;
     pMemoria->ie = ie;
     pMemoria->oe = oe;
