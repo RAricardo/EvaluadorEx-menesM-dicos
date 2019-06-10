@@ -245,8 +245,10 @@ int main( int argc, char  *argv[] )
 
             while(getline(cin, sub_command))  {
             
-
+            int carga=0;
+            char tipo_muestra;
             string type_command;
+
             if (sub_command.find(updated) != string::npos) {
 
                 string arr[3];
@@ -257,19 +259,22 @@ int main( int argc, char  *argv[] )
                     ++i;
                 }
 
-                int carga=0;
-                char tipo_muestra;
-
                 type_command = arr[0];
                 tipo_muestra = (arr[1].c_str())[0];
                 carga = atoi(arr[2].c_str());
 
             } 
 
-            char char_sub_command[sub_command.size()+1];
+            int n = sub_command.size()+1;
+            char* char_sub_command = new char[n];
+
+            //char char_sub_command[sub_command.size()+1];
             strcpy(char_sub_command, sub_command.c_str());
 
-            char char_type_command[type_command.size()+1];
+            int m = type_command.size()+1;
+            char* char_type_command = new char[m];
+
+            //char char_type_command[type_command.size()+1];
             strcpy(char_type_command, type_command.c_str());
 
             processing_command = strcmp(processing, char_sub_command);
