@@ -116,19 +116,19 @@ void ColaEntrada::meter(int c_entrada, char tipo, int cantidad, char *n){
 
 void ColaEntrada::openSems(){
     stringstream sstmL;
-    sstmL << tipo << n_cola << "llenos";
+    sstmL <<nombre_mem<< tipo << n_cola << "llenos";
     string ansllenos = sstmL.str();
     char * ansllenos2 = (char *) ansllenos.c_str();
     llenos = Sync::open(ansllenos2);
 
     stringstream sstmV;
-    sstmV << tipo << n_cola << "vacios";
+    sstmV <<nombre_mem<< tipo << n_cola << "vacios";
     string ansvacios = sstmV.str();
     char * ansvacios2 = (char *) ansvacios.c_str();
     vacios = Sync::open(ansvacios2);
 
     stringstream sstmM;
-    sstmM << tipo << n_cola << "mutex";
+    sstmM <<nombre_mem<< tipo << n_cola << "mutex";
     string ansmutex = sstmM.str();
     char * ansmutex2 = (char *) ansmutex.c_str();
     mutex = Sync::open(ansmutex2);
