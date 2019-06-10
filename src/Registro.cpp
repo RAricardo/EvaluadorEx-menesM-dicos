@@ -17,32 +17,32 @@
 
 using namespace std;
 
-void init_parameters (int opt,int i,int ie,int oe,string n,int b,int d,int s,int q);
-void stop_parameters(char c,string n);
-void rep_parameters(char c, string n, int i, int m);
-void ctrl_parameters(char c, string n);
-void reg_parameters(char c, string n);
+void init_parameters (int opt,int i,int ie,int oe,char* n,int b,int d,int s,int q);
+void stop_parameters(char c,char* n);
+void rep_parameters(char c, char* n, int i, int m);
+void ctrl_parameters(char c, char* n);
+void reg_parameters(char c, char* n);
 
 struct Init_struct {
     int i,b,d,s,q,ie,oe;
-    string n;
+    char* n;
 };
 
 struct Reg_struct {
-    string n;
+    char* n;
 };
 
 struct Stop_struct {
-    string n;
+    char* n;
 };
 
 struct Rep_struct {
-    string n;
+    char* n;
     int i,m;
 };
 
 struct Ctrl_struct {
-    string n;
+    char* n;
 };
 
 
@@ -76,6 +76,11 @@ int long_index =0;
 int main( int argc, char  *argv[] )
 {
 
+    string dm = "evaluator";
+    int n = dm.size()+1;
+    char* default_memory = new char[n];
+    strcpy(default_memory, dm.c_str());
+
     char c;
 
     char init[] = "init";
@@ -99,7 +104,7 @@ int main( int argc, char  *argv[] )
         init_s.d=100;
         init_s.s=100;
         init_s.q=6;
-        init_s.n="evaluator";
+        init_s.n=default_memory;
 
         while ((opt = getopt_long_only(argc, argv,"", long_options, &long_index )) != -1) {
             init_parameters(opt,init_s.i,init_s.ie,init_s.oe,init_s.n,init_s.b,init_s.d,init_s.s,init_s.q);
@@ -111,7 +116,7 @@ int main( int argc, char  *argv[] )
 
     } else if (reg_command == 0) {
 
-        reg_s.n="evaluator";
+        reg_s.n=default_memory;
 
         while(( c = getopt( argc, argv, "n:" )) != -1 ) {
             reg_parameters(c,reg_s.n);
@@ -222,7 +227,7 @@ int main( int argc, char  *argv[] )
 
     } else if (ctrl_command == 0) {
 
-        ctrl_s.n="evaluator";
+        ctrl_s.n=default_memory;
 
         while(( c = getopt( argc, argv, "n:" )) != -1 ) {
             ctrl_parameters(c,ctrl_s.n);
@@ -310,7 +315,7 @@ int main( int argc, char  *argv[] )
 
     } else if (rep_command == 0) {
 
-        rep_s.n = "evaluator";
+        rep_s.n = default_memory;
         rep_s.i = 1;
         rep_s.m = 1;
 
@@ -321,7 +326,7 @@ int main( int argc, char  *argv[] )
 
     } else if (stop_command == 0) {
 
-        stop_s.n="evaluator";
+        stop_s.n=default_memory;
 
         while(( c = getopt( argc, argv, "n:" )) != -1 ) {
             stop_parameters(c,stop_s.n);
@@ -336,7 +341,7 @@ int main( int argc, char  *argv[] )
     return 0;
 }
 
-void init_parameters (int opt, int i, int ie, int oe, string n, int b, int d, int s, int q)
+void init_parameters (int opt, int i, int ie, int oe, char* n, int b, int d, int s, int q)
 {
     switch (opt)
     {
@@ -355,7 +360,7 @@ void init_parameters (int opt, int i, int ie, int oe, string n, int b, int d, in
             init_s.oe=oe;
             break;
         case 'n':
-            n=(string)optarg;
+            n=optarg;
             init_s.n=n;
             break;
         case 'b':
@@ -381,12 +386,12 @@ void init_parameters (int opt, int i, int ie, int oe, string n, int b, int d, in
     }
 }
 
-void stop_parameters(char c,string n)
+void stop_parameters(char c,char* n)
 {
     switch ( c )
     {
         case 'n':
-            n=(string)optarg;
+            n=optarg;
             stop_s.n=n;
             break;
         case '?':
@@ -395,12 +400,12 @@ void stop_parameters(char c,string n)
     }
 }
 
-void rep_parameters(char c, string n, int i, int m)
+void rep_parameters(char c, char* n, int i, int m)
 {
     switch ( c )
     {
         case 'n':
-            n=(string)optarg;
+            n=optarg;
             rep_s.n=n;
             break;
         case 'i':
@@ -417,12 +422,12 @@ void rep_parameters(char c, string n, int i, int m)
     }
 }
 
-void ctrl_parameters(char c, string n)
+void ctrl_parameters(char c, char* n)
 {
     switch ( c )
     {
         case 'n':
-            n=(string)optarg;
+            n=optarg;
             ctrl_s.n=n;
             break;
         case '?':
@@ -431,12 +436,12 @@ void ctrl_parameters(char c, string n)
     }
 }
 
-void reg_parameters(char c, string n)
+void reg_parameters(char c, char* n)
 {
     switch ( c )
     {
         case 'n':
-            n=(string)optarg;
+            n=optarg;
             reg_s.n=n;
             break;
         case '?':
