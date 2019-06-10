@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Cola::Cola(char tipo, int n_cola, int n, char * nombre_mem)
+Cola::Cola(char tipo, int n_cola, int n, char * nombre_mem):
 nombre_mem(nombre_mem)
 {
     llenos = Sync::create(tipo + n_cola + "llenos");

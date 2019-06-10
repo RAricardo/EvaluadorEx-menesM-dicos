@@ -1,6 +1,4 @@
 #pragma once
-#include "ColaEntrada.h"
-#include "ColaSalida.h" 
 
 using namespace std;
 

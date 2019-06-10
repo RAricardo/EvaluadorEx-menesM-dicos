@@ -2,8 +2,6 @@
 #include <vector>
 #include "Cola.h"
 
-using namespace std;
-
 class ColaSalida: public Cola {
 
     public: 
