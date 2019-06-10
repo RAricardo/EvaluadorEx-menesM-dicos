@@ -11,7 +11,7 @@ ColaInterna::ColaInterna(char tipo, int n_cola, int q, char * n):
     Cola(tipo, n_cola, q, n), examenes (vector<examen>())
 {
     thread hilo_Cola(&ColaInterna::procesar, this);
-    hilo_Cola.join();
+    hilo_Cola.detach();
 }
 
 void ColaInterna::procesar()

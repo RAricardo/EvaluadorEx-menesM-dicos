@@ -2,17 +2,18 @@
 #include "sync.h"
 #include <vector>
 #include <string>
+#include <iostream>
+#include <sstream>
 
 ColaEntrada::ColaEntrada(int n_cola, int ie, int q, char *nombre_mem): 
     Cola('E', n_cola, ie, nombre_mem), cib(ColaInterna('B', n_cola, q, nombre_mem)),
     cid(ColaInterna('D', n_cola, q, nombre_mem)), cis(ColaInterna('S', n_cola, q, nombre_mem))
 {
     thread hilo_Cola(&ColaEntrada::diferenciar, this);
-    hilo_Cola.join();
+    hilo_Cola.detach();
 }
 
 void ColaEntrada::diferenciar(){
-    
     for (;;){
         examen examen = sacar();
         if (examen.k == 'B'){
@@ -28,9 +29,7 @@ void ColaEntrada::diferenciar(){
 }
 
 examen ColaEntrada::sacar(){
-    llenos = Sync::open(tipo + n_cola + "llenos");
-    vacios = Sync::open(tipo + n_cola + "vacios");
-    mutex = Sync::open(tipo + n_cola + "mutex");
+    openSems();
 
     char ch = '/';
     char chArray[2];
@@ -59,12 +58,12 @@ examen ColaEntrada::sacar(){
     struct Memoria *pMemoria = (struct Memoria *)dir;
 
     //struct Memoria *pMemoria = MemoryManager::openMemory(nombre_mem);
-    
+
     llenos->wait();
     mutex->wait();
 
     int index = 0;
-    
+    //pop
     while (pMemoria->examenes[index].i == n_cola){
         index++;
     }
@@ -86,10 +85,7 @@ examen ColaEntrada::sacar(){
 }
 
 void ColaEntrada::meter(int c_entrada, char tipo, int cantidad, char *n){
-
-    llenos = Sync::open(tipo + n_cola + "llenos");
-    vacios = Sync::open(tipo + n_cola + "vacios");
-    mutex = Sync::open(tipo + n_cola + "mutex");
+    openSems();
 
     struct Memoria *pMemoria = MemoryManager::openMemory(n);
 
@@ -116,4 +112,24 @@ void ColaEntrada::meter(int c_entrada, char tipo, int cantidad, char *n){
 
     mutex->signal();
     llenos->signal();
+}
+
+void ColaEntrada::openSems(){
+    stringstream sstmL;
+    sstmL << tipo << n_cola << "llenos";
+    string ansllenos = sstmL.str();
+    char * ansllenos2 = (char *) ansllenos.c_str();
+    llenos = Sync::open(ansllenos2);
+
+    stringstream sstmV;
+    sstmV << tipo << n_cola << "vacios";
+    string ansvacios = sstmV.str();
+    char * ansvacios2 = (char *) ansvacios.c_str();
+    vacios = Sync::open(ansvacios2);
+
+    stringstream sstmM;
+    sstmM << tipo << n_cola << "mutex";
+    string ansmutex = sstmM.str();
+    char * ansmutex2 = (char *) ansmutex.c_str();
+    mutex = Sync::open(ansmutex2);
 }
