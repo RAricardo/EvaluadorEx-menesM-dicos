@@ -5,11 +5,13 @@
 #include <string>
 #include <stdlib.h>
 #include <cstring>
-
 #include <getopt.h>
-
 #include <fstream> // for file-access
 #include <iostream>
+#include "Memoria.h"
+#include "ColaEntrada.h"
+#include "ColaSalida.h"
+#include "Evaluador.h"
 
 using namespace std;
 
